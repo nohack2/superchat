@@ -1,5 +1,5 @@
 import MessageInput from "./MessageInput";
-import { ChatMessage } from "../pages";
+import { ChatMessage } from "./Chat";
 import Suggestion from "./Suggestion";
 
 interface ChatAreaProps {
