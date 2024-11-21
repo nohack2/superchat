@@ -2,6 +2,7 @@ import MessageInput from "./MessageInput";
 import { ChatContext, ChatMessage, ComponentType } from "./Chat";
 import Suggestion from "./Suggestion";
 import { StockChart } from "../tradingview/stock-chart";
+import { useEffect, useRef } from "react";
 
 interface ChatAreaProps {
   chatContext: ChatContext;
@@ -49,11 +50,39 @@ function renderComponent (chatMessage: ChatMessage) {
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, loading }) => {
+  const chatHistory = chatContext.chatHistory;
+  // Ref for the last message
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  // Auto-scroll effect
+  useEffect(() => {
+    // if (lastMessageRef.current) {
+    //   lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    // }
+    const chatContainer = chatContainerRef.current;
+    console.log(chatContainer);
+    if (chatContainer) {
+      // Calculate scroll position to keep the last message in the middle
+      const newScrollTop =
+        chatContainer.scrollHeight - chatContainer.clientHeight / 2;
+      console.log(newScrollTop);
+
+      // Smoothly scroll to the calculated position
+      chatContainer.scrollTo({
+        top: newScrollTop,
+        behavior: "smooth",
+      });
+    }
+  }, [chatHistory]);
+  
+
   return (
     <div className="flex-1 flex flex-col h-screen">
-      <div className="flex-1 overflow-y-auto bg-white p-4">
+      <div 
+      ref={chatContainerRef} // Assign ref to last message
+      className="flex-1 overflow-y-auto bg-white p-4">
         {chatContext.chatHistory.map((msg, index) => (
-          <div key={index} className={`my-2 ${msg.role === "user" ? "text-right" : "text-left"}`}>
+          <div key={index}
+           className={`my-2 ${msg.role === "user" ? "text-right" : "text-left"}`}>
             {
               renderComponent(msg)
             }
