@@ -10,7 +10,7 @@ interface SuggestionProps {
         <p className="text-sm text-gray-500 mb-2"></p>
         <div className="flex space-x-2">
           {suggestions.map((suggestion, index) => (
-            <div key={index} className="rounded-lg bg-slate-200 hover:cursor-pointer hover:bg-white">
+            <div key={index} className="rounded-lg border-solid border bg-white hover:cursor-pointer hover:bg-slate-200">
               <div
                 key={index}
                 onClick={() => handleSuggestionClick(suggestion)}
