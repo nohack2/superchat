@@ -3,38 +3,64 @@ import LeftNav from "./LeftNav";
 import ChatArea from "./ChatArea";
 
 export interface ChatMessage {
-  type: "user" | "system" | "chart";
+  role: 'user' | 'system'
   text?: string;
   data?: string;
+  componentType?: ComponentType
+}
+
+export interface ComponentType {
+  provider: 'internal' | 'tradingview'
+}
+
+export interface ChatContext {
+  chatHistory:  ChatMessage[]
 }
 
 export default function Chat() {
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [chatContext, setChatContext] = useState<ChatContext>({
+    chatHistory: [],
+  });
+  // const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleUserQuery = async (query: string) => {
-    setChatHistory((prev) => [...prev, { type: "user", text: query }]);
+    // setChatHistory((prev) => [...prev, { role: "user", text: query }]);
+    // setChatContext((prev) => {
+    //   const chatHistory =  [...prev.chatHistory, { role: "user", text: query }];
+    //   // return {
+    //   //   componentType: prev.componentType,
+    //   //   chatHistory
+    //   // };
+    //   return prev;
+    // });
+    setChatContext((prev) => ({
+      chatHistory: [...prev.chatHistory, { role: "user", text: query }],
+    }));  
     setLoading(true);
 
     try {
-      const response = await fetch("/api/handler", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
-      });
+      // const response = await fetch("/api/handler", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ query }),
+      // });
 
-      const data = await response.json();
-
-      setChatHistory((prev) => [
-        ...prev,
-        { type: "system", text: "Here is the stock chart:" },
-        { type: "chart", data: data.chartEmbed },
-      ]);
+      // const data = await response.json();
+      let newMessage: ChatMessage = { 
+        role: "system", 
+        text: "", 
+        componentType: {
+          provider: 'tradingview'
+        }
+      };
+      setChatContext((prev) => ({
+        chatHistory: [...prev.chatHistory, newMessage],
+      }));
     } catch (error) {
-      setChatHistory((prev) => [
-        ...prev,
-        { type: "system", text: "Something went wrong, please try again." },
-      ]);
+      setChatContext((prev) => ({
+        chatHistory: [...prev.chatHistory, { role: "system", text: "Some issue in our system" }],
+      }));
     } finally {
       setLoading(false);
     }
@@ -51,7 +77,7 @@ export default function Chat() {
       <div className="flex-1 flex flex-col justify-center items-center p-4">
         <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg overflow-hidden">
           {/* Chat Area Content */}
-          <ChatArea chatHistory={chatHistory} handleUserQuery={handleUserQuery} loading={loading} />
+          <ChatArea chatContext={chatContext} handleUserQuery={handleUserQuery} loading={loading} />
         </div>
       </div>
     </div>
