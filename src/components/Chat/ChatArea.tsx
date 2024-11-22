@@ -1,12 +1,15 @@
 import MessageInput from "./MessageInput";
 import { ChatContext, ChatMessage, ComponentType } from "./Chat";
-import Suggestion from "./Suggestion";
+import Suggestion, { SuggestionProps } from "./Suggestion";
 import { StockChart } from "../tradingview/stock-chart";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
+import Water from "../../assets/water.jpg";
 
 interface ChatAreaProps {
   chatContext: ChatContext;
   handleUserQuery: (query: string) => void;
+  handleSuggestionClick: any;
   loading: boolean;
 }
 
@@ -24,14 +27,21 @@ function renderComponent (chatMessage: ChatMessage) {
     )
   }
   else if (role === 'system') {
-    if (chatMessage.componentType &&
+    if (typeof chatMessage.componentType !== 'undefined' &&
       chatMessage.componentType.provider === 'tradingview'
     ) {
       return (
         <div className="">
           <div className="">
-            <div className={`p-2 rounded text-black rounded-lg inline-block`}>
-              <StockChart symbol="AAPL"></StockChart>
+            <div className={`p-2 rounded text-black rounded-lg inline-block w-8/12`}>
+            {/* <Image
+              src={Water}
+              width={500}
+              height={500}
+              alt="Picture of the author"
+            /> */}
+
+              <chatMessage.componentType.chart symbol="AAPL"></chatMessage.componentType.chart>
             </div>
           </div>
         </div>
@@ -49,7 +59,7 @@ function renderComponent (chatMessage: ChatMessage) {
   }
 }
 
-const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, loading }) => {
+const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, handleSuggestionClick, loading }) => {
   const chatHistory = chatContext.chatHistory;
   // Ref for the last message
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -90,7 +100,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, loadi
         ))}
         {loading && <p className="text-gray-500">Loading...</p>}
       </div>
-      <Suggestion handleSuggestionClick={handleUserQuery} />
+      <Suggestion handleSuggestionClick={handleSuggestionClick} />
       <MessageInput onSend={handleUserQuery} />
       <p className="text-sm text-gray-400 p-4">AI answers are not perfect. Verify independently.</p>
     </div>
