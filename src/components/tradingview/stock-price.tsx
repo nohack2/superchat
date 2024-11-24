@@ -6,7 +6,7 @@ export function StockPrice({ props: symbol }: { props: string }) {
   const container = useRef<HTMLDivElement>(null)
 
 
-  const walmartSymbol = "WMT";
+  const walmartSymbol = "AAPL";
   useEffect(() => {
     if (!container.current) return
     const script = document.createElement('script')
