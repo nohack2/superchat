@@ -2,7 +2,7 @@ import MessageInput from "./MessageInput";
 import { ChatContext, ChatMessage, ComponentType } from "./Chat";
 import Suggestion, { SuggestionProps } from "./Suggestion";
 import { StockChart } from "../tradingview/stock-chart";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Water from "../../assets/water.jpg";
 
@@ -84,6 +84,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, handl
     }
   }, [chatHistory]);
   
+  const [inputFilter, setInputFilter] = useState<string>("");
 
   return (
     <div className="flex-1 flex flex-col h-screen">
@@ -100,8 +101,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, handl
         ))}
         {loading && <p className="text-gray-500">Loading...</p>}
       </div>
-      <Suggestion handleSuggestionClick={handleSuggestionClick} />
-      <MessageInput onSend={handleUserQuery} />
+      <Suggestion handleSuggestionClick={handleSuggestionClick} filter={inputFilter} />
+      <MessageInput onSend={handleUserQuery} onInputChange={setInputFilter} />
       <p className="text-sm text-gray-400 p-4">AI answers are not perfect. Verify independently.</p>
     </div>
   );
