@@ -5,6 +5,8 @@ import React, { useEffect, useRef, memo } from 'react'
 export function StockPrice({ props: symbol }: { props: string }) {
   const container = useRef<HTMLDivElement>(null)
 
+
+  const walmartSymbol = "WMT";
   useEffect(() => {
     if (!container.current) return
     const script = document.createElement('script')
@@ -16,7 +18,7 @@ export function StockPrice({ props: symbol }: { props: string }) {
       {
         "symbols": [
           [
-            "${symbol}"
+            "${walmartSymbol}"
           ]
         ],
         "chartOnly": false,
