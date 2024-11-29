@@ -41,8 +41,12 @@ export default function Chat() {
         text: "", 
         componentType: componentType
       };
+      let newTextMessage: ChatMessage = { 
+        role: "system", 
+        text: "Please let me know if you have more questions related to the data shown.", 
+      };
       setChatContext((prev) => ({
-        chatHistory: [...prev.chatHistory, newMessage],
+        chatHistory: [...prev.chatHistory, newMessage, newTextMessage],
       }));
     } catch (error) {
       setChatContext((prev) => ({
