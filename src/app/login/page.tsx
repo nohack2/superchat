@@ -43,6 +43,10 @@ const Login = () => {
           if (errCode === 'invalid_credentials') {
             setMessage('Please check your credentials.');
             setMessageType('error');
+          } else if (errCode === 'email_not_confirmed') {
+            setMessage('Please resend a confirmation email to verify and then signin.');
+            setMessageType('error');
+            setIsResendConfirmation(true);
           } else {
             setMessage('An error occurred whle signin in. Please try later');
             setMessageType('error');
