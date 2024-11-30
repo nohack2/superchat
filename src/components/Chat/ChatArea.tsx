@@ -49,7 +49,7 @@ function renderComponent (chatMessage: ChatMessage) {
     }
     return (
     <div className="">
-      <div className="">
+      <div className="w-3/4 text-justify">
         <div className={`p-2 rounded text-black rounded-lg inline-block`}>
           {chatMessage.text}
         </div>
@@ -83,12 +83,12 @@ const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, handl
       });
     }
   }, [chatHistory]);
-  
+
   const [inputFilter, setInputFilter] = useState<string>("");
 
   return (
     <div className="flex-1 flex flex-col h-screen">
-      <div 
+      <div
       ref={chatContainerRef} // Assign ref to last message
       className="flex-1 overflow-y-auto bg-white p-4">
         {chatContext.chatHistory.map((msg, index) => (
