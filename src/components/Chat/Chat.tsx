@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LeftNav from "./LeftNav";
 import ChatArea from "./ChatArea";
 import AccountDetails from "./AccountDetails";
@@ -8,6 +8,8 @@ import { StockChart } from "../tradingview/stock-chart";
 import { StockScreener } from "../tradingview/stock-screener";
 import { MarketHeatmap } from "../tradingview/market-heatmap";
 import { StockPrice } from "../tradingview/stock-price";
+import { createClient } from "@/utils/supabase/client";
+import RiskProfile from "../RiskProfile/RiskProfile";
 
 export interface ChatMessage {
   role: 'user' | 'system'
@@ -29,26 +31,47 @@ export default function Chat() {
   const [chatContext, setChatContext] = useState<ChatContext>({
     chatHistory: [],
   });
+  const [hasProfile, setHasProfile] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [showAccountDetails, setShowAccountDetails] = useState<boolean>(false);
   const [showAddBroker, setShowAddBroker] = useState<boolean>(false);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true);
 
+  useEffect(() => {
+    const checkProfile = async () => {
+      const supabase = await createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        return
+      };
+
+      // setUserId(user.id);
+
+      const response = await fetch(`/api/checkProfile?userId=${user.id}`);
+      const result = await response.json();
+      console.log(result);
+      setHasProfile(result.hasProfile);
+      setLoading(false);
+    };
+
+    checkProfile();
+  }, []);
+
   const handleUserQuery = async (query: string, componentType?: ComponentType) => {
     setChatContext((prev) => ({
       chatHistory: [...prev.chatHistory, { role: "user", text: query }],
-    }));  
+    }));
     setLoading(true);
 
     try {
-      let newMessage: ChatMessage = { 
-        role: "system", 
-        text: "", 
+      let newMessage: ChatMessage = {
+        role: "system",
+        text: "",
         componentType: componentType
       };
-      let newTextMessage: ChatMessage = { 
-        role: "system", 
-        text: "Please let me know if you have more questions related to the data shown.", 
+      let newTextMessage: ChatMessage = {
+        role: "system",
+        text: "Please let me know if you have more questions related to the data shown.",
       };
       setChatContext((prev) => ({
         chatHistory: [...prev.chatHistory, newMessage, newTextMessage],

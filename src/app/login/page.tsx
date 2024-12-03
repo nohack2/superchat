@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { resetPassword, signIn, signUp, resendConfirmation } from '../actions';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,6 +14,15 @@ const Login = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [messageType, setMessageType] = useState<'success' | 'error' | null>(null);
   const router = useRouter();  // Initialize the Next.js router
+
+  // useEffect(() => {
+  //   const checkSession = async () => {
+  //     const supabase = await createClient();
+  //     const { data: { session } } = await supabase.auth.getSession();
+  //     if (session) router.push('/');
+  //   };
+  //   checkSession();
+  // }, [router]);
 
   const handleAuth = async () => {
     setMessage(null);
