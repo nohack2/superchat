@@ -3,8 +3,6 @@ import { ChatContext, ChatMessage, ComponentType } from "./Chat";
 import Suggestion, { SuggestionProps } from "./Suggestion";
 import { StockChart } from "../tradingview/stock-chart";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Water from "../../assets/water.jpg";
 
 interface ChatAreaProps {
   chatContext: ChatContext;
@@ -13,34 +11,26 @@ interface ChatAreaProps {
   loading: boolean;
 }
 
-function renderComponent (chatMessage: ChatMessage) {
+function renderComponent(chatMessage: ChatMessage) {
   const role = chatMessage.role;
-  if(role === 'user') {
+  if (role === 'user') {
     return (
       <div className="">
         <div className="">
-          <div className={`p-2 rounded text-black rounded-lg inline-block bg-[#e2e8f0] px-5 py-1`}>
+          <div className={`p-2 rounded text-black dark:text-white rounded-lg inline-block bg-[#e2e8f0] dark:bg-gray-700 px-6 py-1`}>
             {chatMessage.text}
           </div>
         </div>
       </div>
-    )
-  }
-  else if (role === 'system') {
+    );
+  } else if (role === 'system') {
     if (typeof chatMessage.componentType !== 'undefined' &&
       chatMessage.componentType.provider === 'tradingview'
     ) {
       return (
         <div className="">
           <div className="">
-            <div className={`p-2 rounded text-black rounded-lg inline-block w-8/12`}>
-            {/* <Image
-              src={Water}
-              width={500}
-              height={500}
-              alt="Picture of the author"
-            /> */}
-
+            <div className={`p-2 rounded text-black dark:text-white rounded-lg inline-block w-8/12 bg-gray-200 dark:bg-gray-700`}>
               <chatMessage.componentType.chart symbol="AAPL"></chatMessage.componentType.chart>
             </div>
           </div>
@@ -48,35 +38,25 @@ function renderComponent (chatMessage: ChatMessage) {
       );
     }
     return (
-    <div className="">
-      <div className="w-3/4 text-justify">
-        <div className={`p-2 rounded text-black rounded-lg inline-block`}>
-          {chatMessage.text}
+      <div className="">
+        <div className="">
+          <div className={`p-2 rounded text-black dark:text-white rounded-lg inline-block`}>
+            {chatMessage.text}
+          </div>
         </div>
       </div>
-    </div>
     );
   }
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, handleSuggestionClick, loading }) => {
   const chatHistory = chatContext.chatHistory;
-  // Ref for the last message
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  // Auto-scroll effect
-  useEffect(() => {
-    // if (lastMessageRef.current) {
-    //   lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
-    // }
-    const chatContainer = chatContainerRef.current;
-    console.log(chatContainer);
-    if (chatContainer) {
-      // Calculate scroll position to keep the last message in the middle
-      const newScrollTop =
-        chatContainer.scrollHeight - chatContainer.clientHeight / 2;
-      console.log(newScrollTop);
 
-      // Smoothly scroll to the calculated position
+  useEffect(() => {
+    const chatContainer = chatContainerRef.current;
+    if (chatContainer) {
+      const newScrollTop = chatContainer.scrollHeight - chatContainer.clientHeight / 2;
       chatContainer.scrollTo({
         top: newScrollTop,
         behavior: "smooth",
@@ -88,15 +68,13 @@ const ChatArea: React.FC<ChatAreaProps> = ({ chatContext, handleUserQuery, handl
 
   return (
     <div className="flex-1 flex flex-col h-screen">
-      <div
-      ref={chatContainerRef} // Assign ref to last message
-      className="flex-1 overflow-y-auto bg-white p-4">
+      <div 
+        ref={chatContainerRef}
+        className="flex-1 overflow-y-auto bg-white dark:bg-gray-800 p-4"
+      >
         {chatContext.chatHistory.map((msg, index) => (
-          <div key={index}
-           className={`my-2 ${msg.role === "user" ? "text-right" : "text-left"}`}>
-            {
-              renderComponent(msg)
-            }
+          <div key={index} className={`my-2 ${msg.role === "user" ? "text-right" : "text-left"}`}>
+            {renderComponent(msg)}
           </div>
         ))}
         {loading && <p className="text-gray-500">Loading...</p>}

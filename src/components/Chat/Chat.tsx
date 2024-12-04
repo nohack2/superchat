@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import LeftNav from "./LeftNav";
 import ChatArea from "./ChatArea";
+import AccountDetails from "./AccountDetails";
+import BrokerModal from "./BrokerModal";
 import { SuggestionItem } from "./Suggestion";
 import { StockChart } from "../tradingview/stock-chart";
 import { StockScreener } from "../tradingview/stock-screener";
@@ -28,6 +30,9 @@ export default function Chat() {
     chatHistory: [],
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [showAccountDetails, setShowAccountDetails] = useState<boolean>(false);
+  const [showAddBroker, setShowAddBroker] = useState<boolean>(false);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true);
 
   const handleUserQuery = async (query: string, componentType?: ComponentType) => {
     setChatContext((prev) => ({
@@ -41,12 +46,8 @@ export default function Chat() {
         text: "", 
         componentType: componentType
       };
-      let newTextMessage: ChatMessage = { 
-        role: "system", 
-        text: "Please let me know if you have more questions related to the data shown.", 
-      };
       setChatContext((prev) => ({
-        chatHistory: [...prev.chatHistory, newMessage, newTextMessage],
+        chatHistory: [...prev.chatHistory, newMessage],
       }));
     } catch (error) {
       setChatContext((prev) => ({
@@ -97,19 +98,39 @@ export default function Chat() {
     handleUserQuery(suggestionItem.text, suggestionComponent.componentType)
   }
 
-  return (
-    <div className="flex h-screen">
-            {/* LeftNav Sidebar */}
-      <div className="w-1/6 text-black bg-gray-100">
-        <LeftNav />
-      </div>
+  const handleAddBrokerClick = () => {
+    setShowAddBroker(true);
+  };
 
-      {/* Chat Area */}
-      <div className="flex-1 flex flex-col justify-center items-center p-4">
-        <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg overflow-hidden">
-          {/* Chat Area Content */}
-          <ChatArea chatContext={chatContext} handleUserQuery={handleUserQuery} handleSuggestionClick={handleSuggestionClick} loading={loading} />
+  const toggleTheme = () => {
+    setIsDarkTheme(prev => !prev);
+  };
+
+  return (
+    <div className={`flex h-screen ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+      <div className="absolute top-4 right-4 z-10">
+        <label className="toggle-switch">
+          <input type="checkbox" checked={isDarkTheme} onChange={toggleTheme} />
+          <span className="slider"></span>
+        </label>
+      </div>
+      {showAddBroker ? (
+        <div className="w-1/6">
+          <BrokerModal isOpen={showAddBroker} onClose={() => setShowAddBroker(false)} />
         </div>
+      ) : (
+        <div className={`w-1/6 ${isDarkTheme ? 'text-white' : 'text-black'} bg-gray-800`}>
+          <LeftNav onAddBrokerClick={handleAddBrokerClick} isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />
+        </div>
+      )}
+      <div className="flex-1 flex flex-col items-center p-1">
+        {showAccountDetails ? (
+          <AccountDetails onClose={() => setShowAccountDetails(false)} />
+        ) : (
+          <div className={`w-full max-w-5xl ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} shadow-lg rounded-lg overflow-hidden`}>
+            <ChatArea chatContext={chatContext} handleUserQuery={handleUserQuery} handleSuggestionClick={handleSuggestionClick} loading={loading} />
+          </div>
+        )}
       </div>
     </div>
   );

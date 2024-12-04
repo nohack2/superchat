@@ -50,7 +50,7 @@ const Suggestion: React.FC<SuggestionProps> = ({ handleSuggestionClick, filter }
               <div className="font-medium text-[.9rem] pb-0 pt-4 px-7">
                 {suggestion.text}
               </div>
-              <div className="text-[.7rem] pt-0 px-7 pb-4 text-slate-900">
+              <div className="text-[.7rem] pt-0 px-7 pb-4 text-slate-900" style={{ color: '#9CA3AF' }}>
                 {suggestion.subtext}
               </div>
             </div>

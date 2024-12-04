@@ -17,17 +17,17 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, onInputChange }) =>
   };
 
   return (
-    <div className="p-4 border-t border-gray-300 flex items-center bg-white">
+    <div className="p-4 border-t border-gray-300 flex items-center bg-white dark:bg-gray-800">
       <input
         type="text"
-        placeholder="Type a message..."
+        placeholder="Type your message here..."
         value={message}
         onChange={(e) => {
           setMessage(e.target.value);
           onInputChange(e.target.value);
         }}
         onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-        className="flex-1 p-2 border border-gray-300 rounded-l focus:outline-none"
+        className="flex-1 p-2 border border-gray-300 rounded-l focus:outline-none text-black dark:text-white bg-white dark:bg-gray-700"
       />
       <button
         onClick={handleSubmit}

@@ -7,3 +7,92 @@
   padding: 0;
   margin: 0;
 }
+
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-theme {
+  background-color: #333;
+  color: #fff;
+}
+
+.light-theme {
+  background-color: #fff;
+  color: #000;
+}
+
+.dark-theme .bg-white {
+  background-color: #1e1e1e; /* Darker background for white elements */
+}
+
+.dark-theme .bg-gray-100 {
+  background-color: #1e1e1e; /* Darker gray for elements */
+}
+
+.dark-theme .bg-blue-500 {
+  background-color: #1e88e5; /* Adjust blue for dark theme */
+}
+
+.dark-theme .bg-red-500 {
+  background-color: #e53935; /* Adjust red for dark theme */
+}
+
+.dark-theme .text-black {
+  color: white; /* Change text color to white for dark theme */
+}
+
+.dark-theme .text-gray-500 {
+  color: black; /* Adjust gray text for dark theme */
+}
+
+.text-black {
+  color: black; /* Default text color for light theme */
+}
+
+/* Add more styles as needed */
+/* Add this to your CSS file (e.g., globals.css or a specific CSS file) */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
