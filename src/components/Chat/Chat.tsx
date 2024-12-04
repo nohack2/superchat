@@ -9,8 +9,6 @@ import { StockScreener } from "../tradingview/stock-screener";
 import { MarketHeatmap } from "../tradingview/market-heatmap";
 import { StockPrice } from "../tradingview/stock-price";
 import { createClient } from "@/utils/supabase/client";
-import RiskProfile from "../RiskProfile/RiskProfile";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 
 export interface ChatMessage {
