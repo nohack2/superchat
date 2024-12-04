@@ -13,16 +13,16 @@ export async function POST(request: Request) {
     .from('riskprofile')
     .select('id')
     .eq('user_id', user.id)
-    .single();
+    .limit(1);
 
-  if (checkError && checkError.code !== 'PGRST116') {
+  if (checkError) {
     return NextResponse.json({ error: 'Error checking profile' }, { status: 500 });
   }
 
   const body = await request.json();
   const profileData = body.profileData;
   // TODO: validate profile data if empty
-  if (existingProfile) {
+  if (existingProfile && existingProfile.length > 0) {
     // Update the existing record with new JSON data
     const { error: updateError } = await supabase
       .from('riskprofile')
