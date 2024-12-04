@@ -10,6 +10,8 @@ import { MarketHeatmap } from "../tradingview/market-heatmap";
 import { StockPrice } from "../tradingview/stock-price";
 import { createClient } from "@/utils/supabase/client";
 import RiskProfile from "../RiskProfile/RiskProfile";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 export interface ChatMessage {
   role: 'user' | 'system'
@@ -33,9 +35,13 @@ export default function Chat() {
   });
   const [hasProfile, setHasProfile] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
+<<<<<<< HEAD
   const [showAccountDetails, setShowAccountDetails] = useState<boolean>(false);
   const [showAddBroker, setShowAddBroker] = useState<boolean>(false);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true);
+=======
+  const router = useRouter();  // Initialize the Next.js router
+>>>>>>> 0778b98 (Implement risk profile screens)
 
   useEffect(() => {
     const checkProfile = async () => {
@@ -47,10 +53,13 @@ export default function Chat() {
 
       // setUserId(user.id);
 
-      const response = await fetch(`/api/checkProfile?userId=${user.id}`);
+      const response = await fetch(`/api/checkRiskProfile`);
       const result = await response.json();
       console.log(result);
-      setHasProfile(result.hasProfile);
+      // setHasProfile(result.hasProfile);
+      if (!result.exists) {
+        router.push('/riskprofile');
+      }
       setLoading(false);
     };
 
@@ -125,6 +134,7 @@ export default function Chat() {
     handleUserQuery(suggestionItem.text, suggestionComponent.componentType)
   }
 
+<<<<<<< HEAD
   const handleAddBrokerClick = () => {
     setShowAddBroker(true);
   };
@@ -133,6 +143,8 @@ export default function Chat() {
     setIsDarkTheme(prev => !prev);
   };
 
+=======
+>>>>>>> 0778b98 (Implement risk profile screens)
   return (
     <div className={`flex h-screen ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
       <div className="absolute top-4 right-4 z-10">
