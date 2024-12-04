@@ -8,6 +8,8 @@ import { MarketHeatmap } from "../tradingview/market-heatmap";
 import { StockPrice } from "../tradingview/stock-price";
 import { createClient } from "@/utils/supabase/client";
 import RiskProfile from "../RiskProfile/RiskProfile";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 export interface ChatMessage {
   role: 'user' | 'system'
@@ -31,6 +33,7 @@ export default function Chat() {
   });
   const [hasProfile, setHasProfile] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();  // Initialize the Next.js router
 
   useEffect(() => {
     const checkProfile = async () => {
@@ -42,10 +45,13 @@ export default function Chat() {
 
       // setUserId(user.id);
 
-      const response = await fetch(`/api/checkProfile?userId=${user.id}`);
+      const response = await fetch(`/api/checkRiskProfile`);
       const result = await response.json();
       console.log(result);
-      setHasProfile(result.hasProfile);
+      // setHasProfile(result.hasProfile);
+      if (!result.exists) {
+        router.push('/riskprofile');
+      }
       setLoading(false);
     };
 
@@ -118,10 +124,6 @@ export default function Chat() {
     ]
     const suggestionComponent = suggestionComponentMap.filter(el => el.name === suggestionItem.type)[0];
     handleUserQuery(suggestionItem.text, suggestionComponent.componentType)
-  }
-
-  if (!hasProfile) {
-    return <RiskProfile />;
   }
 
   return (
