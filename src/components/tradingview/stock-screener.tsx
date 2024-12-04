@@ -19,9 +19,9 @@ export function StockScreener({}) {
       defaultScreen: 'most_capitalized',
       market: 'america',
       showToolbar: true,
-      colorTheme: 'light',
+      colorTheme: 'white',
       locale: 'en',
-      isTransparent: true
+      isTransparent: false
     })
 
     container.current.appendChild(script)
@@ -34,7 +34,7 @@ export function StockScreener({}) {
   }, [])
 
   return (
-    <div style={{ height: '500px' }}>
+    <div style={{ height: '500px', backgroundColor: 'white' }}>
       <div
         className="tradingview-widget-container"
         ref={container}
