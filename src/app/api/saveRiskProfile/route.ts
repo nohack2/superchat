@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         user_id: user.id,
         profile_data: profileData
       });
-
+    console.log(insertError);
     if (insertError) {
       return NextResponse.json({ error: 'Failed to save profile' }, { status: 500 });
     }

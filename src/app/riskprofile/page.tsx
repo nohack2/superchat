@@ -60,11 +60,18 @@ const RiskProfile: React.FC = () => {
     //   return;
     // }
     // TODO: validate profile fields.
-    await fetch('/api/saveRiskProfile', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profileData: formData })
-    });
+    try {
+      const response = await fetch('/api/saveRiskProfile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profileData: formData })
+      });
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.log(error);
+    }
+
     // TODO: handle profile savign error.
     alert('Profile submitted!');
     router.push('/');
