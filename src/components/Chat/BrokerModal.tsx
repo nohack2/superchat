@@ -25,11 +25,11 @@ const BrokerModal: FC<BrokerModalProps> = ({ isOpen, onClose }) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-4 rounded shadow-lg w-1/4 h-auto">
                 <h2 className="text-xl font-bold mb-2 text-black dark:text-white">Connect New Broker</h2>
-                <p className="mb-4 text-gray-700 dark:text-gray-300">Please select the broker you want to add:</p>
+                <p className="mb-4 font-bold mb-2 text-black dark:text-white">Please select the broker you want to add:</p>
                 <ul>
                     <li className="mb-2">
                         <button
-                            className="w-full py-2 px-4 rounded text-black dark:text-white bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 flex items-center"
+                            className="w-full py-2 px-4 rounded text-black dark:text-white bg-white dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center border border-gray-300 dark:border-gray-700"
                             onClick={() => setShowMT5Modal(true)}
                         >
                             <FaPlusCircle className="mr-2" /> {/* Circle plus icon */}
@@ -37,13 +37,13 @@ const BrokerModal: FC<BrokerModalProps> = ({ isOpen, onClose }) => {
                         </button>
                     </li>
                     <li className="mb-2">
-                        <button className="w-full py-2 px-4 rounded text-black dark:text-white bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 flex items-center">
+                        <button className="w-full py-2 px-4 rounded text-black dark:text-white bg-white dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center border border-gray-300 dark:border-gray-700">
                             <FaPlusCircle className="mr-2" /> {/* Circle plus icon */}
                             Binance
                         </button>
                     </li>
                     <li>
-                        <button className="w-full py-2 px-4 rounded text-black dark:text-white bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 flex items-center">
+                        <button className="w-full py-2 px-4 rounded text-black dark:text-white bg-white dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center border border-gray-300 dark:border-gray-700">
                             <FaPlusCircle className="mr-2" /> {/* Circle plus icon */}
                             Coinbase
                         </button>

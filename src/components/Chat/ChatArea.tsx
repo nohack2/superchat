@@ -17,7 +17,7 @@ function renderComponent(chatMessage: ChatMessage) {
     return (
       <div className="">
         <div className="">
-          <div className={`p-2 rounded text-black dark:text-white rounded-lg inline-block bg-[#e2e8f0] dark:bg-gray-700 px-6 py-1`}>
+          <div className={`p-2 rounded text-white inline-block bg-[#E0E0E0] dark:bg-gray-500 px-6 py-1`}>
             {chatMessage.text}
           </div>
         </div>
@@ -30,7 +30,7 @@ function renderComponent(chatMessage: ChatMessage) {
       return (
         <div className="">
           <div className="">
-            <div className={`p-2 rounded text-black dark:text-white rounded-lg inline-block w-8/12 bg-gray-200 dark:bg-gray-700`}>
+            <div className={`p-2 rounded text-black dark:text-white rounded-lg inline-block w-8/12 bg-white dark:bg-gray-700`}>
               <chatMessage.componentType.chart symbol="AAPL"></chatMessage.componentType.chart>
             </div>
           </div>

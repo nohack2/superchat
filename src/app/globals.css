@@ -17,11 +17,6 @@ body {
   color: #fff;
 }
 
-.light-theme {
-  background-color: #fff;
-  color: #000;
-}
-
 .dark-theme .bg-white {
   background-color: #1e1e1e; /* Darker background for white elements */
 }
@@ -46,12 +41,35 @@ body {
   color: black; /* Adjust gray text for dark theme */
 }
 
-.text-black {
-  color: black; /* Default text color for light theme */
+.light-theme {
+  background-color: #f9f9f9; /* Very light gray background */
+  color: #333; /* Darker text color for contrast */
 }
 
-/* Add more styles as needed */
-/* Add this to your CSS file (e.g., globals.css or a specific CSS file) */
+.light-theme .bg-white {
+  background-color: #ffffff; /* Pure white background */
+}
+
+.light-theme .bg-gray-100 {
+  background-color: #f7f7f7; /* Very light gray for elements */
+}
+
+.light-theme .bg-blue-500 {
+  background-color: #007bff; /* Standard blue for light theme */
+}
+
+.light-theme .bg-red-500 {
+  background-color: #dc3545; /* Standard red for light theme */
+}
+
+.light-theme .text-black {
+  color: #333; /* Darker text color for light theme */
+}
+
+.light-theme .text-gray-500 {
+  color: #6c757d; /* Standard gray text for light theme */
+}
+
 .toggle-switch {
   position: relative;
   display: inline-block;
